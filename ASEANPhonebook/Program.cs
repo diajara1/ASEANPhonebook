@@ -49,6 +49,25 @@ class AseanPhonebook
         { 66, "Thailand" }
     };
 
+    private int GetValidCountryCode()
+    {
+        int code;
+
+        do
+        {
+            Console.Write("Enter country code (60, 62, 63, 65, 66): ");
+
+            if (int.TryParse(Console.ReadLine(), out code) &&
+                countries.ContainsKey(code))
+            {
+                return code;
+            }
+
+            Console.WriteLine("Invalid country code. Please try again.");
+
+        } while (true);
+    }
+
     public void StoreStudent()
     {
         Console.WriteLine("\n--- STORE STUDENT ---");
@@ -65,18 +84,21 @@ class AseanPhonebook
         Console.Write("Enter occupation: ");
         string occupation = Console.ReadLine();
 
-        Console.Write("Enter gender (M/F): ");
-        string gender = Console.ReadLine().ToUpper();
+        string gender;
 
-        Console.WriteLine("\nCountry codes:");
-        Console.WriteLine("60 - Malaysia");
-        Console.WriteLine("62 - Indonesia");
-        Console.WriteLine("63 - Philippines");
-        Console.WriteLine("65 - Singapore");
-        Console.WriteLine("66 - Thailand");
+        do
+        {
+            Console.Write("Enter gender (M/F): ");
+            gender = Console.ReadLine().ToUpper();
 
-        Console.Write("Enter country code: ");
-        int countryCode = int.Parse(Console.ReadLine());
+            if (gender != "M" && gender != "F")
+            {
+                Console.WriteLine("Invalid gender. Enter M or F.");
+            }
+
+        } while (gender != "M" && gender != "F");
+
+        int countryCode = GetValidCountryCode();
 
         Console.Write("Enter area code: ");
         string areaCode = Console.ReadLine();
@@ -136,7 +158,11 @@ class AseanPhonebook
             Console.WriteLine("[8] Back");
 
             Console.Write("Enter choice: ");
-            choice = int.Parse(Console.ReadLine());
+
+            if (!int.TryParse(Console.ReadLine(), out choice))
+            {
+                choice = -1;
+            }
 
             switch (choice)
             {
@@ -151,8 +177,21 @@ class AseanPhonebook
                     break;
 
                 case 3:
-                    Console.Write("Enter new gender (M/F): ");
-                    foundStudent.Gender = Console.ReadLine().ToUpper();
+                    string newGender;
+
+                    do
+                    {
+                        Console.Write("Enter new gender (M/F): ");
+                        newGender = Console.ReadLine().ToUpper();
+
+                        if (newGender != "M" && newGender != "F")
+                        {
+                            Console.WriteLine("Invalid gender. Enter M or F.");
+                        }
+
+                    } while (newGender != "M" && newGender != "F");
+
+                    foundStudent.Gender = newGender;
                     break;
 
                 case 4:
@@ -161,8 +200,7 @@ class AseanPhonebook
                     break;
 
                 case 5:
-                    Console.Write("Enter new country code: ");
-                    foundStudent.CountryCode = int.Parse(Console.ReadLine());
+                    foundStudent.CountryCode = GetValidCountryCode();
                     break;
 
                 case 6:
@@ -209,7 +247,11 @@ class AseanPhonebook
             Console.WriteLine("[0] No More");
 
             Console.Write("Enter choice: ");
-            choice = int.Parse(Console.ReadLine());
+
+            if (!int.TryParse(Console.ReadLine(), out choice))
+            {
+                choice = -1;
+            }
 
             switch (choice)
             {
@@ -287,7 +329,11 @@ class Program
             Console.WriteLine("[4] Exit");
 
             Console.Write("Enter choice: ");
-            choice = int.Parse(Console.ReadLine());
+
+            if (!int.TryParse(Console.ReadLine(), out choice))
+            {
+                choice = -1;
+            }
 
             switch (choice)
             {
